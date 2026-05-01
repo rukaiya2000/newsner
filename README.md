@@ -8,6 +8,9 @@ A domain-agnostic named entity recognition system that extracts structured entit
 
 Professional Flask web UI for real-time entity extraction with three sections:
 
+![NewsNER Dashboard](images/dashboard.png)
+*Dashboard showing entity extraction with confidence scores and statistics*
+
 **Extract Tab** — Paste text, instantly extract entities with confidence scores
 - Example buttons (Financial, Tech, General)
 - Real-time results with statistics dashboard
