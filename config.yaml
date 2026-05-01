@@ -1,0 +1,50 @@
+# NewsNER Configuration
+# Customize pipeline behavior, entity types, data sources, and output paths
+
+ner:
+  # Confidence threshold: spans below this are flagged for human review
+  confidence_threshold: 0.75
+
+  # Entity types to extract (customize per domain)
+  entity_types:
+    - ORG
+    - PERSON
+    - GPE
+    - MONEY
+    - PERCENT
+    - DATE
+    - EVENT
+
+data:
+  # Data source configuration
+  newsapi:
+    enabled: true
+    days_back: 7
+    max_articles_per_query: 20
+
+  rss:
+    enabled: true
+    feeds:
+      - https://feeds.finance.yahoo.com/rss/2.0/headline
+      - https://www.cnbc.com/id/100003114/device/rss/rss.html
+
+  # Fetch queries (customize per domain)
+  queries:
+    - "stock market earnings"
+    - "Federal Reserve interest rates"
+    - "merger acquisition deal"
+    - "SEC investigation fraud"
+    - "IPO listing shares"
+
+output:
+  # Output directory structure
+  data_cache: data/articles_cache.json
+  ner_output: annotations/ner_output.jsonl
+  review_queue: annotations/review_queue.jsonl
+  label_studio_import: annotations/label_studio_import.json
+  human_annotations: annotations/human_annotations.jsonl
+  agreement_report: docs/agreement_report.json
+
+logging:
+  # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: INFO

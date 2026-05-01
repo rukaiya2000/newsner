@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsNER — NLP Entity Extraction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>📰 NewsNER</h1>
+                <div class="nav-buttons">
+                    <button class="nav-btn active" data-tab="extract">Extract</button>
+                    <button class="nav-btn" data-tab="about">About</button>
+                    <button class="nav-btn" data-tab="guide">How to Use</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>📰 NewsNER</h1>
+                <p class="subtitle">Named Entity Recognition for Text Data</p>
+            </div>
+        </header>
+
+        <!-- Tab Content -->
+        <main class="tab-content">
+            <!-- Extract Tab -->
+            <section id="extract-tab" class="tab-pane active">
+                <div class="main-grid">
+                    <!-- Input Section -->
+                    <div class="input-section">
+                        <h2>Enter Text</h2>
+                        <textarea
+                            id="input-text"
+                            placeholder="Paste news article, financial report, or any text here..."
+                            class="textarea"
+                        ></textarea>
+
+                        <!-- Example Buttons -->
+                        <div class="examples">
+                            <p class="examples-label">Try an example:</p>
+                            <button class="btn btn-example" data-example="financial">💰 Financial</button>
+                            <button class="btn btn-example" data-example="tech">🔧 Tech News</button>
+                            <button class="btn btn-example" data-example="general">📰 General</button>
+                        </div>
+
+                        <button id="extract-btn" class="btn btn-primary">
+                            Extract Entities
+                        </button>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div class="results-section">
+                        <h2>Results</h2>
+
+                        <!-- Loading State -->
+                        <div id="loading" class="loading hidden">
+                            <div class="spinner"></div>
+                            <p>Processing text...</p>
+                        </div>
+
+                        <!-- Error State -->
+                        <div id="error" class="error hidden"></div>
+
+                        <!-- Stats -->
+                        <div id="stats" class="stats hidden">
+                            <div class="stat-card">
+                                <span class="stat-value" id="stat-total">0</span>
+                                <span class="stat-label">Entities Found</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-value" id="stat-high">0</span>
+                                <span class="stat-label">High Confidence (≥0.9)</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-value" id="stat-review">0</span>
+                                <span class="stat-label">Needs Review</span>
+                            </div>
+                        </div>
+
+                        <!-- Entities List -->
+                        <div id="entities-container" class="entities-container hidden">
+                            <h3>Extracted Entities</h3>
+                            <div id="entities-list" class="entities-list"></div>
+                        </div>
+
+                        <!-- No Results -->
+                        <div id="no-results" class="no-results hidden">
+                            <p>No results yet. Enter text and click "Extract Entities"</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Tab -->
+            <section id="about-tab" class="tab-pane">
+                <div class="about-content">
+                    <h2>About NewsNER</h2>
+                    <p>NewsNER is a <strong>human-in-the-loop Named Entity Recognition pipeline</strong> designed for extracting structured information from text.</p>
+
+                    <h3>What It Does</h3>
+                    <ul>
+                        <li>🤖 <strong>Automatic Extraction</strong> — Uses spaCy transformer models to identify entities</li>
+                        <li>📊 <strong>Confidence Scoring</strong> — Every entity gets a confidence score (0-100%)</li>
+                        <li>👤 <strong>Human Review</strong> — Low-confidence predictions flagged for expert validation</li>
+                        <li>📈 <strong>Quality Metrics</strong> — Measures agreement between model and human annotations (Cohen's Kappa)</li>
+                    </ul>
+
+                    <h3>Entity Types</h3>
+                    <div class="entity-types-grid">
+                        <div class="entity-type-card ORG">
+                            <strong>ORG</strong><br>Organizations & Companies
+                        </div>
+                        <div class="entity-type-card PERSON">
+                            <strong>PERSON</strong><br>People & Names
+                        </div>
+                        <div class="entity-type-card GPE">
+                            <strong>GPE</strong><br>Locations & Places
+                        </div>
+                        <div class="entity-type-card MONEY">
+                            <strong>MONEY</strong><br>Monetary Values
+                        </div>
+                        <div class="entity-type-card DATE">
+                            <strong>DATE</strong><br>Dates & Times
+                        </div>
+                        <div class="entity-type-card EVENT">
+                            <strong>EVENT</strong><br>Events & Occurrences
+                        </div>
+                    </div>
+
+                    <h3>Use Cases</h3>
+                    <ul>
+                        <li>📰 Financial news curation and market intelligence</li>
+                        <li>🔬 Biological literature mining and biomedical data extraction</li>
+                        <li>📊 Research data collection and knowledge base construction</li>
+                        <li>🏢 Document classification and information extraction</li>
+                    </ul>
+
+                    <h3>Tech Stack</h3>
+                    <p><strong>Backend:</strong> Python 3.9+, Flask, spaCy 3.7+<br>
+                    <strong>Frontend:</strong> HTML5, CSS3, Vanilla JavaScript<br>
+                    <strong>NLP:</strong> Transformer-based models, confidence estimation<br>
+                    <strong>Quality:</strong> Cohen's Kappa agreement metrics</p>
+
+                    <h3>Open Source</h3>
+                    <p>NewsNER is built for research and production use. Check out the <a href="https://github.com" target="_blank">GitHub repository</a> for the full source code.</p>
+                </div>
+            </section>
+
+            <!-- How to Use Tab -->
+            <section id="guide-tab" class="tab-pane">
+                <div class="guide-content">
+                    <h2>How to Use</h2>
+
+                    <div class="guide-step">
+                        <h3>Step 1: Enter Text</h3>
+                        <p>Paste any text into the textarea. Works with:</p>
+                        <ul>
+                            <li>📰 News articles</li>
+                            <li>💼 Business reports</li>
+                            <li>📄 Research papers</li>
+                            <li>💬 Any English text</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-step">
+                        <h3>Step 2: Extract Entities</h3>
+                        <p>Click <strong>"Extract Entities"</strong> button or press <code>Ctrl+Enter</code></p>
+                        <p>The AI model will analyze your text and identify all named entities in real-time.</p>
+                    </div>
+
+                    <div class="guide-step">
+                        <h3>Step 3: Review Results</h3>
+                        <p>See:</p>
+                        <ul>
+                            <li><strong>Statistics</strong> — Total entities found, high confidence count</li>
+                            <li><strong>Entity List</strong> — Each entity with confidence score</li>
+                            <li><strong>Color Coding</strong> — Entity types color-coded for quick scanning</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-step">
+                        <h3>Understanding Confidence</h3>
+                        <ul>
+                            <li>🟢 <strong>90-100%</strong> — High confidence, likely correct</li>
+                            <li>🟡 <strong>75-90%</strong> — Medium confidence, should verify</li>
+                            <li>🔴 <strong>&lt;75%</strong> — Low confidence, flagged for review</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-step">
+                        <h3>Tips</h3>
+                        <ul>
+                            <li>✨ Try the example buttons to see how it works</li>
+                            <li>📝 Longer texts (200+ words) work best</li>
+                            <li>🔄 Complex entity relationships are captured</li>
+                            <li>⚡ Results appear instantly</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-step">
+                        <h3>Advanced: Configure Entity Types</h3>
+                        <p>To customize which entities to extract, edit <code>config.yaml</code>:</p>
+                        <pre>ner:
+  entity_types:
+    - ORG
+    - PERSON
+    - MONEY
+    # Add or remove types here</pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Entity Types Legend -->
+        <section class="legend-section">
+            <h3>Entity Types</h3>
+            <div id="legend" class="legend"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>NewsNER v1.0 — Human-in-the-Loop NER Pipeline</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

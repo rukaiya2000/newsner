@@ -1,0 +1,28 @@
+# Environment variables
+.env
+.env.local
+
+# Cache & data
+data/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Flask
+instance/
+*.db
+*.sqlite
+.flask_session/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
